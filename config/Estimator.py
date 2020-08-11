@@ -102,6 +102,9 @@ class Estimator(object):
         from sklearn.model_selection import GridSearchCV
         grid = GridSearchCV(pipe, param_grid=param_grid, cv=cv.cv, scoring = cv.scoring, verbose=cv.verbose)
         grid.fit(X_train.values, y_train.values)
+        import pickle
+        with open('knn_LM', 'wb') as fp:
+            pickle.dump(grid.best_estimator_, fp)
         #print(grid.best_params_)
         return grid
 

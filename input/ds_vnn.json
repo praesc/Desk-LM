@@ -1,0 +1,6 @@
+{
+    "path": "./datasets/training.csv",
+    "test_size": 0.25,
+    "target_column":"class",
+    "skip_columns":["path"]
+}

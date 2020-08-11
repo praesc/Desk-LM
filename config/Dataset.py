@@ -81,7 +81,8 @@ class Dataset(object):
             if 'target_column' in jsonData:
                 tc = jsonData['target_column'].lower()
                 self.y = self.df.loc[:,tc]
-                self.X = self.df.drop(tc, axis = 1)
+                self.X = self.df.iloc[:,1:]
+                self.X = self.X.drop(tc, axis = 1)
             else:
                 self.y = self.df.iloc[:,-1]
                 self.X = self.df.drop(self.df.columns[-1], axis = 1)

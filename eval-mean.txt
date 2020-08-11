@@ -1,0 +1,50 @@
+dataset = pd.read_csv('../training-complete.csv', names=csv_col)
+idx=0
+lefts = []
+middles = []
+rights = []
+for row in zip(*[dataset[col].values.tolist() for col in csv_col]):
+    if idx == 0:
+        idx += 1
+        continue
+    lefts.append(np.mean(row[1:48]))
+    middles.append(np.mean(row[48:97]))
+    rights.append(np.mean(row[97:-1]))
+    idx += 1
+    if idx == 1001:
+        break
+
+y_train = dataset.iloc[1:1001, -1]
+paths = dataset.iloc[1:1001, 0]
+df_train = pd.DataFrame(dict([('path', paths),
+                ('left', lefts),
+                ('middle', middles),
+                ('right', rights),
+                ('class', y_train)]))
+
+X_train = df_train.iloc[1:1001, 1:-1]
+y_train = df_train.iloc[1:1001, -1]
+
+dataset = pd.read_csv('../test-complete.csv', names=csv_col)
+lefts = []
+middles = []
+rights = []
+idx=0
+for row in zip(*[dataset[col].values.tolist() for col in csv_col]):
+    if idx == 0:
+        idx += 1
+        continue
+    lefts.append(np.mean(row[1:48]))
+    middles.append(np.mean(row[48:97]))
+    rights.append(np.mean(row[97:-1]))
+
+y_test = dataset.iloc[1:, -1]
+paths = dataset.iloc[1:, 0]
+df_test = pd.DataFrame(dict([('path', paths),
+                ('left', lefts),
+                ('middle', middles),
+                ('right', rights),
+                ('class', y_test)]))
+
+X_test = df_test.iloc[1:, 1:-1]
+y_test = df_test.iloc[1:, -1]

@@ -2,7 +2,7 @@ import argparse
 
 import logger as lg
 
-
+import pandas as pd
 import numpy as np
 
 '''
@@ -137,9 +137,25 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
     ds.X, ds.y, train_size=training_size, test_size=ds.test_size, random_state=0)
 
-col_means = X_train.mean()
-X_train = X_train.fillna(col_means)
-X_test = X_test.fillna(col_means)
+#csv_col = ['path', 'left', 'middle', 'right', 'class']
+csv_col = ['path']
+for idx in range(143):
+    csv_col.append(str(idx))
+csv_col.append('class')
+# Read dataset to pandas dataframe
+dataset = pd.read_csv('../training-complete-arch-dsets.csv', names=csv_col)
+X_train = dataset.iloc[1:, 1:-1]
+y_train = dataset.iloc[1:, -1]
+
+dataset = pd.read_csv('../test-complete-arch-dsets.csv', names=csv_col)
+X_test = dataset.iloc[1:, 1:-1]
+y_test = dataset.iloc[1:, -1]
+
+
+
+#col_means = X_train.mean()
+#X_train = X_train.fillna(col_means)
+#X_test = X_test.fillna(col_means)
 
 best_estimator = esti.process(prep, ms, X_train, y_train)
 #print(best_estimator.score(X_test, y_test))

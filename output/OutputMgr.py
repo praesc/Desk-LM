@@ -153,6 +153,10 @@ class OutputMgr(metaclass=abc.ABCMeta):
         import numpy as np
         stri = create_matrices.createArray(type_s, "y_test", np.reshape(y_test, (y_test.shape[0], )), 'N_TEST')
         myFile.write(stri)
+        # Convert to int
+        for element in X_test.values:
+            for idx, value in enumerate(element):
+                element[idx] = str(int(float(value)))
         
         stri = create_matrices.createMatrix('float', 'X_test', X_test.values, 'N_TEST', 'N_FEATURE') # changed by FB
         myFile.write(stri)
@@ -195,6 +199,11 @@ class OutputMgr(metaclass=abc.ABCMeta):
         import numpy as np
         stri = create_matrices.createArray(type_s, "y_train", np.reshape(y_train, (y_train.shape[0], )), 'N_TRAIN')
         myFile.write(stri)
+        # Convert to int
+        for element in X_train.values:
+            for idx, value in enumerate(element):
+                element[idx] = str(int(float(value)))
+
         stri = create_matrices.createMatrix('float', 'X_train', X_train.values, 'N_TRAIN', 'N_FEATURE') # changed by FB
         myFile.write(stri)
         myFile.close()
